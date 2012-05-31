@@ -23,19 +23,8 @@ end
 
 group :developmet, :test do
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'capybara'
-  gem 'guard-rspec'
-  gem 'faker'
-  gem 'growl'
 end
 
-group :test do
-  gem 'rack-test', require: 'rack/test'
-  gem 'guard-spork'
-  gem 'spork'
-  gem 'launchy'
-end
 
 gem 'jquery-rails'
 
