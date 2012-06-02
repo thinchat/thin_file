@@ -1,3 +1,5 @@
 ThinFile::Application.routes.draw do
-  match '/file' => "home#index"
+  scope '/file' do
+    root :to => "home#index"
+  end
 end
