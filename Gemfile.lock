@@ -172,6 +172,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   mysql2
+  rack-test
   rails (= 3.2.3)
   rmagick
   rspec-rails

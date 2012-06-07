@@ -1,0 +1,10 @@
+<%= form_for @document, :html => {:multipart => true} do |f| %>
+  <p>
+    <%= f.file_field :file %>
+  </p>
+  <p>
+    <%= f.label :remote_file_url, "or file URL" %><br />
+    <%= f.text_field :remote_file_url %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>
