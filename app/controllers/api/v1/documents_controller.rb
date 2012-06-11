@@ -12,7 +12,7 @@ module Api
       end
 
       def create
-        respond_with Document.create(params[:document])
+        respond_with Document.create(file: params['file'])
       end
 
       def update
