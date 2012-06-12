@@ -43,8 +43,6 @@ gem 'capistrano'
 gem 'carrierwave'
 gem 'rmagick'
 gem 'fog'
-gem 'redis'
-gem 'faye'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
