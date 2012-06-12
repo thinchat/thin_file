@@ -11,9 +11,9 @@ class Document < ActiveRecord::Base
       user_id: user_id,
       user_type: user_type,
       message_type: self.class.name,
-      message_body: file.url,
-      metadata: { },
-      created_at: created_at,
+      body: file.url,
+      # metadata: { },
+      # created_at: created_at,
     }
   end
 
@@ -22,9 +22,8 @@ class Document < ActiveRecord::Base
   end
 
   def broadcast
-    message_hash = {:channel => channel, 
-                    :data => { :chat_message => self.to_hash } }
-    uri = URI.parse("#{FAYE_URL}/faye")
-    Net::HTTP.post_form(uri, :message => message_hash.to_json)
+    # WE NEED TO CHANGE THIS FOR PRODUCTION
+    uri = URI.parse("http://localhost:3000/api/v1/messages.json")
+    Net::HTTP.post_form(uri, :message => to_hash.to_json)
   end
 end
