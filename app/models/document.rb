@@ -1,8 +1,17 @@
 class Document < ActiveRecord::Base
-  attr_accessible :file, :remote_file_url, :user_id, :user_type, :room_id, :user_display_name
+  attr_accessible :file, :filename, :remote_file_url, :user_id, :user_type, :room_id, :user_display_name
   
   mount_uploader :file, FileUploader
-  after_create :broadcast
+
+  def self.create_and_broadcast(attributes)
+    begin
+      doc = Document.create!(attributes)
+      doc.broadcast
+      doc
+    rescue
+      false
+    end
+  end
 
   def to_hash
     {
@@ -11,9 +20,8 @@ class Document < ActiveRecord::Base
       user_id: user_id,
       user_type: user_type,
       message_type: self.class.name,
-      body: file.url,
-      # metadata: { },
-      # created_at: created_at,
+      body: file.url.to_s,
+      metadata: {:filename => filename}
     }
   end
 

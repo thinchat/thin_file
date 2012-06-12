@@ -12,18 +12,11 @@ module Api
       end
 
       def create
-        doc = Document.create(file: params['file'],
-                              user_id: params['user_id'],
-                              user_type: params['user_type'],
-                              room_id: params['room_id'],
-                              user_display_name: params['user_display_name']
-                              )
-        render json: {file_url: doc.file_url,
-                      file_name: doc.file.identifier,
-                      user_id: doc.user_id,
-                      user_type: doc.user_type,
-                      room_id: doc.room_id,
-                      user_display_name: params['user_display_name']}
+        if Document.create_and_broadcast(attributes_with_filename(params))
+          head :status => :created
+        else
+          head :status => :bad_request
+        end
       end
 
       def update
@@ -32,6 +25,13 @@ module Api
 
       def destroy
         respond_with Document.destroy(params[:id])
+      end
+
+      private
+
+      def attributes_with_filename(params)
+        filename = params[:document].try(:[], :file).try(:original_filename)
+        params[:document].merge(:filename => filename)
       end
 
     end

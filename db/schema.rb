@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120612001112) do
+ActiveRecord::Schema.define(:version => 20120612212046) do
 
   create_table "documents", :force => true do |t|
     t.string   "file"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20120612001112) do
     t.string   "user_type"
     t.integer  "room_id"
     t.string   "user_display_name"
+    t.string   "filename"
   end
 
   create_table "pictures", :force => true do |t|
