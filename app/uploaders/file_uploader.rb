@@ -1,5 +1,4 @@
 class FileUploader < CarrierWave::Uploader::Base
-
   storage :fog
 
   # def extension_white_list

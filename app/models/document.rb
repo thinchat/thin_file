@@ -1,8 +1,8 @@
 require 'net/http'
 
 class Document < ActiveRecord::Base
-  attr_accessible :file, :filename, :remote_file_url, :user_id, :user_type, :room_id, :user_display_name
-  
+  attr_accessible :file, :filename, :remote_file_url, :user_id, :user_type,
+                  :room_id, :user_display_name
   mount_uploader :file, FileUploader
 
   def self.create_and_broadcast(attributes)
@@ -27,13 +27,9 @@ class Document < ActiveRecord::Base
     }
   end
 
-  def channel
-    "/messages/#{room_id}"
-  end
-
   def broadcast
     # WE NEED TO CHANGE THIS FOR PRODUCTION
-    uri = URI.parse("http://localhost:3000/api/v1/messages.json")
+    uri = URI.parse("#{root_url}/api/v1/messages.json")
     Net::HTTP.post_form(uri, :message => to_hash.to_json)
   end
 end
