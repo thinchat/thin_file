@@ -28,7 +28,8 @@ class Document < ActiveRecord::Base
 
   def broadcast(url)
     # This  URL will be correct for PRODUCTION
-    uri = URI.parse("#{url}/api/v1/messages.json")
+    #uri = URI.parse("#{url}/api/v1/messages.json")
+    uri = URI.parse("http://localhost:3000/api/v1/messages.json")
     Net::HTTP.post_form(uri, :message => to_hash.to_json)
     self
   end
