@@ -12,7 +12,7 @@ module Api
       end
 
       def create
-        if Document.create_and_broadcast(attributes_with_filename(params))
+        if Document.create_and_broadcast(attributes_with_filename(params), root_url)
           head :status => :created
         else
           head :status => :bad_request

@@ -5,10 +5,10 @@ class Document < ActiveRecord::Base
                   :room_id, :user_display_name
   mount_uploader :file, FileUploader
 
-  def self.create_and_broadcast(attributes)
+  def self.create_and_broadcast(attributes, url)
     begin
       doc = Document.create!(attributes)
-      doc.broadcast
+      doc.broadcast(url)
     rescue
       false
     end
@@ -26,9 +26,9 @@ class Document < ActiveRecord::Base
     }
   end
 
-  def broadcast
-    # WE NEED TO CHANGE THIS FOR PRODUCTION
-    uri = URI.parse("#{root_url}/api/v1/messages.json")
+  def broadcast(url)
+    # This  URL will be correct for PRODUCTION
+    uri = URI.parse("#{url}/api/v1/messages.json")
     Net::HTTP.post_form(uri, :message => to_hash.to_json)
     self
   end
