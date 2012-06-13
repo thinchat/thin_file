@@ -18,30 +18,18 @@ describe "get /api/documents", :type => :api do
 
     file = JSON.parse(last_response.body)
     file_url = file["file"]["url"]
-    file_url.class.should == String
+    file_url.include?("skinnyfiles").should == true
   end
 end
 
 describe "post /api/v1/documents", :type => :api do
   it "creates a valid entry" do
+    Document.any_instance.should_receive(:broadcast).and_return(double)
     url = "http://www.example.com/api/documents"
     post "#{url}.json", :document => {
                           :remote_file_url => "http://www.danpink.com/PDF/AWNMforbusiness.pdf"}
-    
-
     last_response.status.should == 201
+
   end
-
-  it "returns a a link to the file hosted on Amazon S3" do
-    url = "http://www.example.com/api/documents"
-    post "#{url}.json", :document => {
-                          :remote_file_url => "http://www.danpink.com/PDF/AWNMforbusiness.pdf"}
-    
-
-    file = JSON.parse(last_response.body)
-    file_url = file["file"]["url"]
-    file_url.class.should == String
-  end
-
 
 end

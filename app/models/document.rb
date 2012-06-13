@@ -9,7 +9,6 @@ class Document < ActiveRecord::Base
     begin
       doc = Document.create!(attributes)
       doc.broadcast
-      doc
     rescue
       false
     end
@@ -31,5 +30,6 @@ class Document < ActiveRecord::Base
     # WE NEED TO CHANGE THIS FOR PRODUCTION
     uri = URI.parse("#{root_url}/api/v1/messages.json")
     Net::HTTP.post_form(uri, :message => to_hash.to_json)
+    self
   end
 end
