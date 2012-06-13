@@ -1,3 +1,5 @@
+require 'net/http'
+
 class Document < ActiveRecord::Base
   attr_accessible :file, :filename, :remote_file_url, :user_id, :user_type, :room_id, :user_display_name
   
