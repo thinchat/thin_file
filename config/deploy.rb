@@ -4,7 +4,7 @@ require 'capistrano/ext/multistage'
 set :stages, %w(production development staging)
 set :default_stage, "development"
 
-set :application, "thin_auth"
+set :application, "thin_file"
 set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
