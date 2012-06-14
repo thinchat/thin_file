@@ -6,6 +6,6 @@ CarrierWave.configure do |config|
     :aws_secret_access_key  => AMAZON_SECRET,       # required
   }
   config.fog_directory  = 'skinnyfiles'                     # required
-  config.fog_public     = true                                   # optional, defaults to true
+  config.fog_public     = false                                   # optional, defaults to true
   config.fog_attributes = {'Cache-Control'=>'max-age=315576000', 'Expires' => 99.years.from_now.httpdate}  # optional, defaults to {}
 end
