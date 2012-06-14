@@ -1,6 +1,8 @@
 require "bundler/capistrano"
+require 'capistrano/ext/multistage'
 
-server "50.116.34.44", :web, :app, :db, primary: true
+set :stages, %w(production development staging)
+set :default_stage, "development"
 
 set :application, "thin_file"
 set :user, "deployer"
@@ -25,14 +27,24 @@ namespace :deploy do
     end
   end
 
-  task :setup_config, roles: :app do
-    sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
-    run "mkdir -p #{shared_path}/config"
-    put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
-    puts "Now edit the config files in #{shared_path}."
+  desc "Create the database"
+  task :create_database, roles: :app do
+    run "cd #{release_path} && bundle exec rake RAILS_ENV=#{rails_env} db:create"
   end
-  after "deploy:setup", "deploy:setup_config"
+  after "deploy:symlink_config", "deploy:create_database"
+  after "deploy:create_database", "deploy:migrate"
 
+  desc "Setup unicorn configuration"
+  task :setup_config, roles: :app do
+    sudo "ln -nfs #{current_path}/config/unicorn/unicorn_#{rails_env}_init.sh /etc/init.d/unicorn_#{application}"
+  end
+  after "deploy:setup", "deploy:create_release_dir", "deploy:setup_config"
+
+  task :create_release_dir, :except => {:no_release => true} do
+    run "mkdir -p #{fetch :releases_path}"
+  end
+
+  desc "Symlink shared/database.yml to config/database.yml"
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
