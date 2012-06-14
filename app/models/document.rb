@@ -22,9 +22,29 @@ class Document < ActiveRecord::Base
       user_type: user_type,
       message_type: self.class.name,
       body: file.url.to_s,
-      metadata: {:filename => filename}
+      metadata: {:filename => filename,
+                 :icon => download_icon}
     }
   end
+
+ def download_icon
+  file_type = filename.split('.').last
+  if ["jpeg","jpg","gif","png"].include?(file_type)
+    pic = "pic"
+  elsif ["mp3","wav"].include?(file_type)
+    pic = "song"
+  elsif ["pdf"].include?(file_type)
+    pic = "pdf"
+  elsif ["doc","docx"]
+    pic = "doc"
+  elsif ["xls","xlsx"]
+    pic ="xls"
+  else
+    pic = "file"
+  end
+    "/assets/#{pic}.png"
+ end
+
 
   def broadcast(url)
     # This  URL will be correct for PRODUCTION
