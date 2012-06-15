@@ -6,12 +6,8 @@ class Document < ActiveRecord::Base
   mount_uploader :file, FileUploader
 
   def self.create_and_broadcast(attributes, url)
-    begin
-      doc = Document.create!(attributes)
-      doc.broadcast(url)
-    rescue
-      false
-    end
+    doc = Document.create!(attributes)
+    doc.broadcast(url)
   end
 
   def to_hash
@@ -49,7 +45,7 @@ class Document < ActiveRecord::Base
   def broadcast(url)
     # This  URL will be correct for PRODUCTION
     #uri = URI.parse("#{url}/api/v1/messages.json")
-    uri = URI.parse("#{root_url}api/v1/messages.json")
+    uri = URI.parse("#{url}/api/v1/messages.json")
     Net::HTTP.post_form(uri, :message => to_hash.to_json)
     self
   end
