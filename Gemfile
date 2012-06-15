@@ -41,7 +41,6 @@ gem 'unicorn'
 gem 'capistrano'
 
 gem 'carrierwave'
-gem 'rmagick'
 gem 'fog'
 
 # To use debugger
