@@ -8,7 +8,7 @@ ThinFile::Application.routes.draw do
     resources :documents
 
     namespace :api, defaults: {format: 'json'} do
-      namespace :v1
+      namespace :v1 do
         resources :pictures
         resources :documents
       end
