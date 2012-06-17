@@ -31,9 +31,9 @@ class Document < ActiveRecord::Base
     pic = "song"
   elsif ["pdf"].include?(file_type)
     pic = "pdf"
-  elsif ["doc","docx"]
+  elsif ["doc","docx"].include?(file_type)
     pic = "doc"
-  elsif ["xls","xlsx"]
+  elsif ["xls","xlsx"].include?(file_type)
     pic ="xls"
   else
     pic = "file"
