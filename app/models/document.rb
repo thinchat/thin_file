@@ -43,9 +43,7 @@ class Document < ActiveRecord::Base
 
 
   def broadcast(url)
-    # uncomment this for local
-    # url = "http://localhost:3000"
-    uri = URI.parse("/api/v1/messages.json")
+    uri = URI.parse("#{url}/api/v1/messages.json")
     Net::HTTP.post_form(uri, :message => to_hash.to_json)
     self
   end

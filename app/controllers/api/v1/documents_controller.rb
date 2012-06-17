@@ -12,7 +12,8 @@ module Api
       end
 
       def create
-        if Document.create_and_broadcast(attributes_with_filename(params), root_url)
+        url = request.env['HTTP_ORIGIN']
+        if Document.create_and_broadcast(attributes_with_filename(params), url)
           head :status => :created
         else
           head :status => :bad_request
